@@ -17,16 +17,34 @@ int randnum(){
 }
 
 int main(){
-  /*printf("num: %d\n",randnum());
-  printf("num: %d\n",randnum());
-  printf("num: %d\n",randnum());
-  printf("num: %d\n",randnum());
-  */
+
+  //Generate random number array
   int nums[10];
   int i;
+  printf("Generating random numbers:\n");
   for(i = 0; i < 10; i++){
     nums[i] = randnum();
-    printf("num[%d] = %d\n",i,nums[i]);
+    printf("\trandom %d: %d\n",i,nums[i]);
   }
+
+  //Creating the file
+  int r = open("randomnums",O_CREAT|O_WRONLY,0666);
+  printf("\nWriting numbers to file...\n");
+  //Write the numbers to the file
+  write(r,nums,sizeof(nums));
+  close(r);
+
+  //Read the numbers from the file and put them in a new array
+  int rnums[10];
+  int rr = open("randomnums",O_RDONLY,0666);
+  printf("\nReading numbers from file...\n\n");
+  read(r,rnums,sizeof(rnums));
+
+  //Print the numbers in the new array
+  printf("Verification that written values were the same:\n");
+  for(i = 0; i < 10; i++){
+    printf("\trandom %d: %d\n",i,rnums[i]);
+  }
+  
   
 }
